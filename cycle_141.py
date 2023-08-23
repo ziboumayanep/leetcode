@@ -1,25 +1,35 @@
 from typing import Optional
 
+import tools
 
-class ListNode:
-    def __init__(self, val=0, next=None):
-        self.val = val
-        self.next = next
-def has_cycle(head: Optional[ListNode]) -> bool:
+
+def has_cycle(head: Optional[tools.ListNode]) -> bool:
     if head is None:
         return False
     first = head
     second = head
     while True:
-        next_first = first.next if first.next else None
-        next_second = second.next.next if second.next and second.next.next else None
-        if next_first is None and next_second is None:
+        first = first.next if first and first.next else None
+        second = second.next.next if second and second.next and second.next.next else None
+
+        if first is None and second is None:
             return False
-        elif next_first != next_second:
+        elif first != second:
             continue
         else:
             return True
 
-def test_has_cycle():
-    pass
 
+def test_has_cycle():
+    node1 = tools.ListNode(2)
+    node0 = tools.ListNode(3)
+    node1.next = node0
+    node0.next = node1
+    assert has_cycle(node0)
+
+
+def test_has_cycle1():
+    node0 = tools.ListNode(0)
+    node1 = tools.ListNode(1)
+    node0.next = node1
+    assert has_cycle(node0) is False
